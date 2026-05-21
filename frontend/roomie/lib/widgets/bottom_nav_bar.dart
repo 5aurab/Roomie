@@ -26,6 +26,14 @@ class _MainNavigationState extends State<MainNavigation> {
     const SurpriseScreen(),
   ];
 
+  final List<(IconData, String)> _navItems = [
+    (Icons.home, 'Home'),
+    (Icons.calendar_month, 'Calendar'),
+    (Icons.receipt_long, 'Bills'),
+    (Icons.cleaning_services, 'Chores'),
+    (Icons.more_horiz, 'More'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final navColor = Theme.of(context).colorScheme.surface;
@@ -60,9 +68,9 @@ class _MainNavigationState extends State<MainNavigation> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _buildMoreItem(
-                        icon: Icons.event_note,
-                        label: 'Plans',
+                        icon: Icons.star,
                         navColor: navColor,
+                        isSelected: _currentIndex == 4,
                         onTap: () => setState(() {
                           _currentIndex = 4;
                           _showMore = false;
@@ -70,14 +78,13 @@ class _MainNavigationState extends State<MainNavigation> {
                       ),
                       _buildMoreItem(
                         icon: Icons.celebration,
-                        label: 'Surprise',
                         navColor: navColor,
+                        isSelected: _currentIndex == 5,
                         onTap: () => setState(() {
                           _currentIndex = 5;
                           _showMore = false;
                         }),
                       ),
-                      // Fills space behind the nav bar
                       SizedBox(
                         height: MediaQuery.of(context).padding.bottom + 80,
                       ),
@@ -89,38 +96,60 @@ class _MainNavigationState extends State<MainNavigation> {
           ],
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        selectedIndex: _currentIndex < 4 ? _currentIndex : 4,
-        animationDuration: Duration.zero,
-        indicatorColor: Colors.grey.withValues(alpha: 0.2),
-        onDestinationSelected: (index) {
-          if (index == 4) {
-            setState(() => _showMore = !_showMore);
-          } else {
-            setState(() {
-              _currentIndex = index;
-              _showMore = false;
-            });
-          }
-        },
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.calendar_month), label: 'Calendar'),
-          NavigationDestination(icon: Icon(Icons.receipt_long), label: 'Bills'),
-          NavigationDestination(icon: Icon(Icons.cleaning_services), label: 'Chores'),
-          NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
-        ],
+      bottomNavigationBar: _buildCustomNavBar(context),
+    );
+  }
+
+  Widget _buildCustomNavBar(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(_navItems.length, (index) {
+            final isSelected = index == (_currentIndex < 4 ? _currentIndex : 4);
+            final (icon, _) = _navItems[index];
+
+            return GestureDetector(
+              onTap: () {
+                if (index == 4) {
+                  setState(() => _showMore = !_showMore);
+                } else {
+                  setState(() {
+                    _currentIndex = index;
+                    _showMore = false;
+                  });
+                }
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Icon(
+                  icon,
+                  size: 22,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
+            );
+          }),
+        ),
       ),
+      )
     );
   }
 
   Widget _buildMoreItem({
     required IconData icon,
-    required String label,
     required Color navColor,
+    required bool isSelected,
     required VoidCallback onTap,
   }) {
     return Material(
@@ -129,13 +158,11 @@ class _MainNavigationState extends State<MainNavigation> {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon),
-              const SizedBox(width: 8),
-              Text(label, style: const TextStyle(fontSize: 14)),
-            ],
+          child: Icon(
+            icon,
+            color: isSelected
+                ? Theme.of(context).colorScheme.onSurface
+                : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
         ),
       ),
