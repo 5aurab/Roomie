@@ -1,5 +1,4 @@
 from django.contrib import admin
+from .models.user import User
 
-# Register your models here.
-# matching model haru lai admin ma register garna parcha
-from .models import User, UserProfile
+admin.site.register(User)
