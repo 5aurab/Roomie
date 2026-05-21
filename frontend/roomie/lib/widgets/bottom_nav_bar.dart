@@ -28,10 +28,11 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    final navColor = Theme.of(context).navigationBarTheme.backgroundColor ??
-        Theme.of(context).colorScheme.surfaceContainer;
+    final navColor = Theme.of(context).colorScheme.surface;
 
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           _screens[_currentIndex],
@@ -76,7 +77,10 @@ class _MainNavigationState extends State<MainNavigation> {
                           _showMore = false;
                         }),
                       ),
-                      const SizedBox(height: 4),
+                      // Fills space behind the nav bar
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.bottom + 80,
+                      ),
                     ],
                   ),
                 ),
@@ -86,6 +90,9 @@ class _MainNavigationState extends State<MainNavigation> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
         selectedIndex: _currentIndex < 4 ? _currentIndex : 4,
         animationDuration: Duration.zero,
         indicatorColor: Colors.grey.withValues(alpha: 0.2),
