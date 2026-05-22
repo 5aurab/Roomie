@@ -1,17 +1,16 @@
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 import firebase_admin.auth as firebase_auth
 
-from ..models import User
+from ..models.user import User
 from ..serializers.auth_serializers import (
     SignupSerializer,
     LoginSerializer,
 )
 
-# JWT helper
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
     return {
@@ -21,6 +20,8 @@ def get_tokens_for_user(user):
 
 
 class SignupView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
@@ -38,6 +39,8 @@ class SignupView(APIView):
 
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -55,6 +58,8 @@ class LoginView(APIView):
 
 
 class GoogleAuthView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         firebase_token = request.data.get('firebase_token')
         if not firebase_token:
@@ -63,13 +68,11 @@ class GoogleAuthView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         try:
-            # Firebase token verify
             decoded = firebase_auth.verify_id_token(firebase_token)
             uid = decoded['uid']
             email = decoded.get('email', '')
             name = decoded.get('name', '')
 
-            # User xa ki xaina check
             user, created = User.objects.get_or_create(
                 firebase_uid=uid,
                 defaults={
@@ -90,7 +93,7 @@ class GoogleAuthView(APIView):
                 'created': created
             }, status=status.HTTP_200_OK)
 
-        except Exception as e:
+        except Exception:
             return Response(
                 {'error': 'Invalid firebase token'},
                 status=status.HTTP_401_UNAUTHORIZED

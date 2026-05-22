@@ -12,6 +12,7 @@ class User(AbstractUser):
             ('busy', 'Busy'),
             ('exam', 'Taking Exam'),
             ('sick', 'Sick'),
+            #can add more statuses as needed
         ],
         default='available'
     )
