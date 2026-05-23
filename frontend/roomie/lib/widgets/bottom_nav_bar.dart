@@ -6,6 +6,7 @@ import '../screens/chores_screen.dart';
 import '../screens/plans_screen.dart';
 import '../screens/surprise_screen.dart';
 import '../widgets/app_bar.dart';
+import 'colors.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -116,7 +117,6 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
               ),
             ],
-            // Nav bar inside Stack so AnimatedSlide works
             Positioned(
               bottom: 0,
               left: 0,
@@ -141,7 +141,7 @@ class _MainNavigationState extends State<MainNavigation> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+            color: RoomieColors.navBarContainer,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Row(
@@ -169,7 +169,7 @@ class _MainNavigationState extends State<MainNavigation> {
                     size: 22,
                     color: isSelected
                         ? Theme.of(context).colorScheme.onSurface
-                        : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                        : RoomieColors.navBarIconUnselected,
                   ),
                 ),
               );
@@ -196,7 +196,7 @@ class _MainNavigationState extends State<MainNavigation> {
             icon,
             color: isSelected
                 ? Theme.of(context).colorScheme.onSurface
-                : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                : RoomieColors.navBarIconUnselected,
           ),
         ),
       ),

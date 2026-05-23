@@ -14,4 +14,6 @@ class RoomieColors {
   static const Color logoText = Color(0xFFE8E4FF);
   static const Color error = Color(0xFFE24B4A);
   static const Color errorText = Color(0xFFA32D2D);
+  static const Color navBarContainer = Color(0x14000000);
+  static const Color navBarIconUnselected = Color(0x80000000);
 }
