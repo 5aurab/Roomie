@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models.household import Household, HouseholdMember
-
+from ..models.household import Household, HouseholdMember
 
 class HouseholdSerializer(serializers.ModelSerializer):
     members_count = serializers.SerializerMethodField()
