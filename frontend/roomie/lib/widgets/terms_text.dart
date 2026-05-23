@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import '../themes/colors.dart';
 
 class RoomieTermsText extends StatelessWidget {
   const RoomieTermsText({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import '../themes/colors.dart';
 import 'logo_mark.dart';
 
 class RoomieHeader extends StatelessWidget {

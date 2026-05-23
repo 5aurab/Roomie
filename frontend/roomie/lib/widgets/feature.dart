@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import '../themes/colors.dart';
 
 class RoomieFeaturePills extends StatelessWidget {
   const RoomieFeaturePills({super.key});

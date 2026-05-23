@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/colors.dart';
+import '../themes/colors.dart';
 import '../widgets/headers.dart';
 import '../widgets/feature.dart';
 import '../widgets/auth_tabs.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import '../themes/colors.dart';
 
 class RoomieSocialButtons extends StatelessWidget {
   final VoidCallback onGoogleTap;

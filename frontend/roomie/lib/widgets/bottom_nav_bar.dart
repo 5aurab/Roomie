@@ -6,7 +6,7 @@ import '../screens/chores_screen.dart';
 import '../screens/plans_screen.dart';
 import '../screens/surprise_screen.dart';
 import '../widgets/app_bar.dart';
-import 'colors.dart';
+import '../themes/colors.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
