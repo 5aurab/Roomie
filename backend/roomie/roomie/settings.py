@@ -17,9 +17,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
     'apps.users',
     'apps.household',
     
+
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'America/New_York'
 USE_I18N = True
@@ -91,3 +94,19 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sneupane.0145@gmail.com'
+EMAIL_HOST_PASSWORD = 'veog kkzv jiak emrr'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# JWT settings
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}

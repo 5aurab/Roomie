@@ -1,4 +1,3 @@
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -12,13 +11,13 @@ class User(AbstractUser):
             ('busy', 'Busy'),
             ('exam', 'Taking Exam'),
             ('sick', 'Sick'),
-            #can add more statuses as needed
         ],
         default='available'
     )
     is_email_verified = models.BooleanField(default=False)
     firebase_uid = models.CharField(max_length=128, unique=True, null=True, blank=True)
-    # Google login, firebase uid will be used to store
+    password_reset_code = models.CharField(max_length=6, blank=True)
 
     def __str__(self):
         return self.display_name or self.username
+    
