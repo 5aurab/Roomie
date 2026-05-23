@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from ..models.user import User
 
 
+
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
     confirm_password = serializers.CharField(write_only=True)

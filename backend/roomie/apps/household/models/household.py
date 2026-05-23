@@ -27,10 +27,6 @@ class Household(models.Model):
 
 
 class HouseholdMember(models.Model):
-    ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('member', 'Member'),
-    ]
     household = models.ForeignKey(
         Household,
         on_delete=models.CASCADE,
@@ -41,7 +37,6 @@ class HouseholdMember(models.Model):
         on_delete=models.CASCADE,
         related_name='households'
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
     move_in_date = models.DateField(null=True, blank=True)
     joined_at = models.DateTimeField(auto_now_add=True)
 
