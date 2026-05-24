@@ -5,10 +5,10 @@ class RoomieFeaturePills extends StatelessWidget {
   const RoomieFeaturePills({super.key});
 
   static const _pills = [
-    (Icons.cleaning_services_outlined, 'chores'),
-    (Icons.receipt_outlined, 'bills'),
-    (Icons.shopping_cart_outlined, 'groceries'),
-    (Icons.calendar_today_outlined, 'schedules'),
+    (Icons.calendar_month, 'Calendar'),
+    (Icons.receipt_long, 'Bills'),
+    (Icons.cleaning_services, 'Chores'),
+    (Icons.celebration, 'Surpries')
   ];
 
   @override

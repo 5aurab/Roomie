@@ -12,7 +12,7 @@ class RoomieHeader extends StatelessWidget {
         RoomieLogo(),
         SizedBox(height: 12),
         Text(
-          'roomie',
+          'ROOMIE',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w600,

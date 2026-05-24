@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-// ── Field label ───────────────────────────────────────────────────────────────
-
 class RoomieFieldLabel extends StatelessWidget {
   final String text;
   const RoomieFieldLabel(this.text, {super.key});
@@ -23,9 +21,6 @@ class RoomieFieldLabel extends StatelessWidget {
     );
   }
 }
-
-// ── Input decoration helper ───────────────────────────────────────────────────
-// Use as a static method so any screen can call RoomieInputDecoration.of(hint).
 
 class RoomieInputDecoration {
   static InputDecoration of(String hint) {
