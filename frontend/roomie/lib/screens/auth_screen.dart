@@ -8,6 +8,8 @@ import '../widgets/primary_button.dart';
 import '../widgets/or_divider.dart';
 import '../widgets/social_buttons.dart';
 import '../widgets/terms_text.dart';
+//import 'verification_screen.dart';
+import 'forgot_password_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -83,7 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
         (today.month == dob.month && today.day < dob.day)) {
       age--;
     }
-    return age >= 18;
+    return age >= 16;
   }
  
   Future<void> _pickDob() async {
@@ -212,7 +214,11 @@ class _AuthScreenState extends State<AuthScreen> {
               alignment: Alignment.centerRight,
               child: GestureDetector(
                 onTap: () {
-                  //  todo: forgot password flow
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ForgotPasswordScreen(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'forgot password?',
