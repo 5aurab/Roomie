@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+﻿# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+venv/
+.env
+db.sqlite3
+*.log
+media/
+
+# VS Code / IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+=======
 # Python
 __pycache__/
 *.py[cod]
@@ -52,3 +72,4 @@ lcov.info
 # OS
 .DS_Store
 Thumbs.db
+>>>>>>> upstream/main
