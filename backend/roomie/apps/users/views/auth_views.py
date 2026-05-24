@@ -65,7 +65,57 @@ class LoginView(APIView):
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GoogleLoginView(APIView):
+    permission_classes = [AllowAny]
 
+    def post(self, request):
+        token = request.data.get('access_token')
+        if not token:
+            return Response(
+                {'error': 'Access token required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            import requests as req
+            google_response = req.get(
+                f'https://www.googleapis.com/oauth2/v3/userinfo',
+                headers={'Authorization': f'Bearer {token}'}
+            )
+            if google_response.status_code != 200:
+                return Response(
+                    {'error': 'Invalid Google token'},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+            google_data = google_response.json()
+            email = google_data.get('email')
+            name = google_data.get('name', '')
+
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'username': email,
+                    'display_name': name,
+                    'is_email_verified': True,
+                }
+            )
+            tokens = get_tokens_for_user(user)
+            return Response({
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'display_name': user.display_name,
+                },
+                'tokens': tokens,
+                'created': created
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        
 class GoogleAuthView(APIView):
     permission_classes = [AllowAny]
 
@@ -175,7 +225,56 @@ class ForgotPasswordView(APIView):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GoogleLoginView(APIView):
+    permission_classes = [AllowAny]
 
+    def post(self, request):
+        token = request.data.get('access_token')
+        if not token:
+            return Response(
+                {'error': 'Access token required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            import requests as req
+            google_response = req.get(
+                f'https://www.googleapis.com/oauth2/v3/userinfo',
+                headers={'Authorization': f'Bearer {token}'}
+            )
+            if google_response.status_code != 200:
+                return Response(
+                    {'error': 'Invalid Google token'},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+            google_data = google_response.json()
+            email = google_data.get('email')
+            name = google_data.get('name', '')
+
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'username': email,
+                    'display_name': name,
+                    'is_email_verified': True,
+                }
+            )
+            tokens = get_tokens_for_user(user)
+            return Response({
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'display_name': user.display_name,
+                },
+                'tokens': tokens,
+                'created': created
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
 class ResetPasswordView(APIView):
     permission_classes = [AllowAny]
 

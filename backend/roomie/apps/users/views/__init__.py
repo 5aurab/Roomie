@@ -6,4 +6,5 @@ from .auth_views import (
     ProfileView,
     ForgotPasswordView,
     ResetPasswordView,
+    GoogleLoginView,
 )
