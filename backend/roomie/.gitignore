@@ -1,12 +1,11 @@
 ﻿# Python / Django
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
-venv/
+*.pyd
 .env
 db.sqlite3
-*.log
-media/
+.vscode/
 
 # VS Code / IDE
 .vscode/
