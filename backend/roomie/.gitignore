@@ -1,24 +1,28 @@
-# Python / Django
+@"
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+venv/
 .env
+
+# Django
 db.sqlite3
+*.log
+media/
+
+# Firebase
+serviceAccountKey.json
+
+# VS Code
 .vscode/
 
-# VS Code / IDE
-.vscode/
-.idea/
+# Cache
+*.pyc
+.pytest_cache/
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Build files
-build/
-dist/
-*.exe
-
-# CI/CD (CMake etc)
-.github/workflows/
+"@ | Out-File -FilePath .gitignore -Encoding utf8
