@@ -1,28 +1,18 @@
-@"
-# Python
+﻿# Python / Django
 __pycache__/
 *.py[cod]
 *.pyo
-*.pyd
+*.pyc
 venv/
 .env
-
-# Django
 db.sqlite3
 *.log
 media/
 
-# Firebase
-serviceAccountKey.json
-
-# VS Code
+# VS Code / IDE
 .vscode/
-
-# Cache
-*.pyc
-.pytest_cache/
+.idea/
 
 # OS
 .DS_Store
 Thumbs.db
-"@ | Out-File -FilePath .gitignore -Encoding utf8
