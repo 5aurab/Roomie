@@ -74,7 +74,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         const RoomieLogo(),
         const SizedBox(height: 28),
         const Text(
-          'reset password',
+          'Reset Password',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         const SizedBox(height: 10),
         const Text(
-          'choose a new password for your account',
+          'Choose a new password for your account',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 13,
