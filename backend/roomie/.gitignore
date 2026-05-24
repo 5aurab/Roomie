@@ -1,17 +1,25 @@
-﻿# Python cache files
+﻿# Python / Django
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
 venv/
 .env
-
-# Django
 db.sqlite3
 *.log
+media/
 
-# VS Code
+# VS Code / IDE
 .vscode/
+.idea/
 
-# Firebase
-serviceAccountKey.json
+# OS
+.DS_Store
+Thumbs.db
 
+# Build files
+build/
+dist/
+*.exe
+
+# CI/CD (CMake etc)
+.github/workflows/
