@@ -60,4 +60,27 @@ class LoginSerializer(serializers.Serializer):
 class GoogleAuthSerializer(serializers.Serializer):
     firebase_token = serializers.CharField()
 
-    
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'email',
+            'username',
+            'display_name',
+            'dob',
+            'profile_status',
+            'is_email_verified',
+        ]
+        read_only_fields = ['id', 'email', 'username', 'is_email_verified']
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    code = serializers.CharField(max_length=6)
+    new_password = serializers.CharField(min_length=8, write_only=True)

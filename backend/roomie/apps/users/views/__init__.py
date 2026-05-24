@@ -1,1 +1,10 @@
-from .auth_views import SignupView, LoginView, GoogleAuthView
+from .auth_views import (
+    SignupView,
+    LoginView,
+    GoogleAuthView,
+    LogoutView,
+    ProfileView,
+    ForgotPasswordView,
+    ResetPasswordView,
+    GoogleLoginView,
+)
