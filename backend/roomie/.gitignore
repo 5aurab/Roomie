@@ -13,3 +13,8 @@ db.sqlite3
 
 # Firebase
 serviceAccountKey.json
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
