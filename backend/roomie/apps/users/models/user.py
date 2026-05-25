@@ -22,7 +22,8 @@ class User(AbstractUser):
     
 
     is_email_verified = models.BooleanField(default=False)
-
+    password_reset_code = models.CharField(max_length=6, blank=True, null=True)
+    
     def __str__(self):
         return self.display_name or self.username
     
