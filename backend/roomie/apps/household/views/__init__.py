@@ -3,4 +3,5 @@ from .household_views import (
     JoinHouseholdView,
     HouseholdDetailView,
     LeaveHouseholdView,
+    HouseholdMembersView,
 )
