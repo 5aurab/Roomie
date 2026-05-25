@@ -70,7 +70,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'username',
             'display_name',
             'dob',
-            'profile_status',
+            'status_vibe',
             'is_email_verified',
         ]
         read_only_fields = ['id', 'email', 'username', 'is_email_verified']
