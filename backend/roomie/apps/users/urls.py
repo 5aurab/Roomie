@@ -1,5 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
+
+from apps.household.views.household_views import UpdateHouseholdView
 from .views import (
     SignupView,
     LoginView,

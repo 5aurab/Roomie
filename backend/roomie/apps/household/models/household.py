@@ -8,7 +8,7 @@ class Household(models.Model):
     address = models.TextField(blank=True)
     no_of_rooms = models.PositiveIntegerField(default=1)
     move_in_date = models.DateField(null=True, blank=True)
-    join_code = models.CharField(max_length=8, unique=True, blank=True)
+    join_code = models.CharField(max_length=8, unique=True, blank=True, db_index=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -19,7 +19,7 @@ class Household(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.join_code:
-            self.join_code = uuid.uuid4().hex[:8].upper()
+            self.join_code = uuid.uuid4().hex[:6].upper()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -35,7 +35,8 @@ class HouseholdMember(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='households'
+        related_name='household_memberships',
+        db_index=True
     )
     move_in_date = models.DateField(null=True, blank=True)
     joined_at = models.DateTimeField(auto_now_add=True)
