@@ -21,5 +21,4 @@ urlpatterns = [
     path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('google/', GoogleLoginView.as_view(), name='google-login'),
-    path('<int:household_id>/update/', UpdateHouseholdView.as_view(), name='update-household'),
 ]

@@ -15,4 +15,5 @@ urlpatterns = [
     path('<int:household_id>/leave/', LeaveHouseholdView.as_view(), name='leave-household'),
     path('<int:household_id>/members/', HouseholdMembersView.as_view(), name='household-members'),
     path('<int:household_id>/update/', UpdateHouseholdView.as_view(), name='update-household'),
+    
 ]
