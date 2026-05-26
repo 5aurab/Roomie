@@ -169,7 +169,7 @@ class ForgotPasswordView(APIView):
                     [email],
                 )
             except User.DoesNotExist:
-                pass  # security: don't reveal if email exists
+                pass  
 
             return Response(
                 {'message': 'Reset code sent if email exists'},

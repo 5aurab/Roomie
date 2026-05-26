@@ -2,7 +2,6 @@ from rest_framework import serializers
 from ..models.household import Household, HouseholdMember
 
 class HouseholdSerializer(serializers.ModelSerializer):
-    # Optimized version (annotate ko lagi)
     members_count = serializers.SerializerMethodField()
      
 
@@ -27,7 +26,6 @@ class JoinHouseholdSerializer(serializers.Serializer):
         return value.upper()
 
 class HouseholdMemberSerializer(serializers.ModelSerializer):
-    # Timile bhane jasto user details include garna
     user_display_name = serializers.CharField(source='user.display_name', read_only=True)
     user_email = serializers.CharField(source='user.email', read_only=True)
 
