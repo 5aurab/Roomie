@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.conf import settings
+from django.core.cache import cache
 from ..models.user import User
 from ..serializers.auth_serializers import (
     SignupSerializer,
@@ -157,11 +158,9 @@ class ForgotPasswordView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             try:
-                user = User.objects.get(email=email)
+                User.objects.get(email=email)
                 reset_code = get_random_string(6, '0123456789')
-                user.password_reset_code = reset_code
-                user.save()
-
+                cache.set(f'pwd_reset_{email}', reset_code, timeout=600)  # ← cache ma
                 send_mail(
                     'Roomie - Password Reset Code',
                     f'Your password reset code is: {reset_code}',
@@ -169,14 +168,10 @@ class ForgotPasswordView(APIView):
                     [email],
                 )
             except User.DoesNotExist:
-                pass  
-
-            return Response(
-                {'message': 'Reset code sent if email exists'},
-                status=status.HTTP_200_OK
-            )
+                pass
+            return Response({'message': 'Reset code sent if email exists'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-           
+
 class ResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
@@ -187,23 +182,163 @@ class ResetPasswordView(APIView):
             code = serializer.validated_data['code']
             new_password = serializer.validated_data['new_password']
 
+            cached_code = cache.get(f'pwd_reset_{email}')  # ← cache bata check
+            if not cached_code or cached_code != code:
+                return Response(
+                    {'error': 'Invalid or expired reset code'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             try:
                 user = User.objects.get(email=email)
-                if user.password_reset_code != code:
-                    return Response(
-                        {'error': 'Invalid reset code'},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
                 user.set_password(new_password)
-                user.password_reset_code = ''
                 user.save()
-                return Response(
-                    {'message': 'Password reset successful'},
-                    status=status.HTTP_200_OK
-                )
+                cache.delete(f'pwd_reset_{email}')  # ← delete after use
+                return Response({'message': 'Password reset successful'})
             except User.DoesNotExist:
                 return Response(
                     {'error': 'User not found'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ─── OTP LOGIN ───────────────────────────────────────────
+
+class RequestOTPView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response(
+                {'error': 'Email required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        otp = get_random_string(6, '0123456789')
+        cache.set(f'otp_login_{email}', otp, timeout=300)  # 5 min
+
+        send_mail(
+            'Roomie - Login OTP',
+            f'Your login OTP is: {otp}\nExpires in 5 minutes.',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+        )
+        return Response(
+            {'message': 'OTP sent to email'},
+            status=status.HTTP_200_OK
+        )
+
+
+class VerifyOTPLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        otp = request.data.get('otp')
+
+        if not email or not otp:
+            return Response(
+                {'error': 'Email and OTP required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        cached_otp = cache.get(f'otp_login_{email}')
+        if not cached_otp:
+            return Response(
+                {'error': 'OTP expired or not found'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if cached_otp != otp:
+            return Response(
+                {'error': 'Invalid OTP'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # OTP use garyo — delete from cache
+        cache.delete(f'otp_login_{email}')
+
+        tokens = get_tokens_for_user(user)
+        return Response({
+            'user': {
+                'id': user.id,
+                'email': user.email,
+                'display_name': user.display_name,
+            },
+            'tokens': tokens
+        }, status=status.HTTP_200_OK)
+
+
+# ─── EMAIL VERIFICATION ──────────────────────────────────
+
+class SendEmailVerificationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        if request.user.is_email_verified:
+            return Response(
+                {'message': 'Email already verified'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        otp = get_random_string(6, '0123456789')
+        cache.set(f'email_verify_{request.user.email}', otp, timeout=600)  # 10 min
+
+        send_mail(
+            'Roomie - Email Verification',
+            f'Your verification code is: {otp}\nExpires in 10 minutes.',
+            settings.DEFAULT_FROM_EMAIL,
+            [request.user.email],
+        )
+        return Response(
+            {'message': 'Verification code sent'},
+            status=status.HTTP_200_OK
+        )
+
+
+class VerifyEmailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        otp = request.data.get('otp')
+        if not otp:
+            return Response(
+                {'error': 'OTP required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        cached_otp = cache.get(f'email_verify_{request.user.email}')
+        if not cached_otp:
+            return Response(
+                {'error': 'OTP expired or not found'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if cached_otp != otp:
+            return Response(
+                {'error': 'Invalid OTP'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        request.user.is_email_verified = True
+        request.user.save()
+        cache.delete(f'email_verify_{request.user.email}')
+
+        return Response(
+            {'message': 'Email verified successfully'},
+            status=status.HTTP_200_OK
+        )

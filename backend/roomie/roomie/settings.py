@@ -22,11 +22,7 @@ INSTALLED_APPS = [
     
     # REST Auth and Token packages
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_framework_simplejwt.token_blacklist',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
-    
+    'rest_framework_simplejwt.token_blacklist',    
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -111,12 +107,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# DJ Rest Auth settings
-REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'jwt-access-token',
-    'JWT_AUTH_REFRESH_COOKIE': 'jwt-refresh-token',
-}
 
 # JWT settings
 SIMPLE_JWT = {
@@ -146,3 +136,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+#cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

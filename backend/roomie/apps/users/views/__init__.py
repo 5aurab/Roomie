@@ -6,4 +6,8 @@ from .auth_views import (
     ForgotPasswordView,
     ResetPasswordView,
     GoogleLoginView,
+    RequestOTPView,
+    VerifyOTPLoginView,
+    SendEmailVerificationView,
+    VerifyEmailView,
 )

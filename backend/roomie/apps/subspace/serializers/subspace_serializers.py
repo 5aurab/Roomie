@@ -9,8 +9,8 @@ class HouseholdSpaceSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'subspace', 'is_common']
         read_only_fields = ['household', 'is_common']
 
-        def get_is_common(self, obj):
-            return obj.subspace is None
+    def get_is_common(self, obj):
+        return obj.subspace is None
         
 class SubspaceSerializer(serializers.ModelSerializer):
     
@@ -19,8 +19,8 @@ class SubspaceSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'is_individual']
         read_only_fields = ['household']
 
-        def get_members_count(self, obj):
-            return obj.members.filter(status='active').count()
+    def get_members_count(self, obj):
+        return obj.members.filter(status='active').count()
         
 class SubspaceMemberSerializer(serializers.ModelSerializer):
     user_display_name = serializers.CharField(source='user.display_name', read_only=True)
