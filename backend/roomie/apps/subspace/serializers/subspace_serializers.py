@@ -13,10 +13,10 @@ class HouseholdSpaceSerializer(serializers.ModelSerializer):
         return obj.subspace is None
         
 class SubspaceSerializer(serializers.ModelSerializer):
-    
+    members_count = serializers.SerializerMethodField()
     class Meta:
         model = Subspace
-        fields = ['id', 'name', 'is_individual']
+        fields = ['id', 'name', 'is_individual', 'members_count' ]
         read_only_fields = ['household']
 
     def get_members_count(self, obj):
