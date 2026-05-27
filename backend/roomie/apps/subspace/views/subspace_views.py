@@ -283,14 +283,15 @@ class SubspaceJoinRequestView(views.APIView):
 
 class SubspaceRespondRequestView(views.APIView):
     """
-    Allows an existing member to accept or decline a pending join request/invitation.
+    Case 1 (Invite): invited person le accept/decline, any subspace member le cancel
+    Case 2 (Self request): any subspace member le accept/decline, requester afai cancel
     """
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, household_id, subspace_id, request_id):
-        if not is_subspace_member(request.user, subspace_id):
+        if not is_household_member(request.user, household_id):
             return response.Response(
-                {'error': 'Not a member of this subspace'},
+                {'error': 'Not a member of this household'},
                 status=status.HTTP_403_FORBIDDEN
             )
         try:
@@ -304,7 +305,8 @@ class SubspaceRespondRequestView(views.APIView):
                 {'error': 'Request not found or already processed'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        # Check if the 24-hour request window has expired
+
+        # 24hr expiry check — pehile nai check garcha
         if join_request.is_expired():
             join_request.status = 'expired'
             join_request.save()
@@ -312,31 +314,66 @@ class SubspaceRespondRequestView(views.APIView):
                 {'error': 'Request expired'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        action = request.data.get('action')  # Expected values: 'accept' or 'decline'
-        if action == 'accept':
-            join_request.status = 'accepted'
-            join_request.save()
-            
-            # Create the new member and serialize the response data using SubspaceMemberSerializer
-            new_member = SubspaceMember.objects.create(
-                subspace_id=subspace_id,
-                user=join_request.requested_by,
-                status='active'
-            )
-            return response.Response({
-                'message': 'Request accepted',
-                'member': SubspaceMemberSerializer(new_member).data
-            }, status=status.HTTP_200_OK)
-            
-        elif action == 'decline':
+
+        action = request.data.get('action')  # accept / decline / cancel
+
+        if action == 'cancel':
+            if join_request.invited_by is not None:
+                # Invite case — any subspace member le cancel
+                if not is_subspace_member(request.user, subspace_id):
+                    return response.Response(
+                        {'error': 'Only subspace members can cancel invitations'},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+            else:
+                # Self request case — requester afai cancel
+                if join_request.requested_by != request.user:
+                    return response.Response(
+                        {'error': 'Only requester can cancel their own request'},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
             join_request.status = 'declined'
             join_request.save()
-            return response.Response({'message': 'Request declined'})
-        return response.Response(
-            {'error': 'action must be accept or decline'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            return response.Response({'message': 'Request cancelled'})
 
+        elif action in ['accept', 'decline']:
+            if join_request.invited_by is not None:
+                # Invite case — sirf invited person le accept/decline
+                if join_request.requested_by != request.user:
+                    return response.Response(
+                        {'error': 'Only invited person can accept or decline'},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+            else:
+                # Self request case — any subspace member le accept/decline
+                if not is_subspace_member(request.user, subspace_id):
+                    return response.Response(
+                        {'error': 'Only subspace members can accept or decline join requests'},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+
+            if action == 'accept':
+                join_request.status = 'accepted'
+                join_request.save()
+                new_member = SubspaceMember.objects.create(
+                    subspace_id=subspace_id,
+                    user=join_request.requested_by,
+                    status='active'
+                )
+                return response.Response({
+                    'message': 'Request accepted',
+                    'member': SubspaceMemberSerializer(new_member).data
+                }, status=status.HTTP_200_OK)
+
+            else:
+                join_request.status = 'declined'
+                join_request.save()
+                return response.Response({'message': 'Request declined'})
+
+        return response.Response(
+            {'error': 'action must be accept, decline, or cancel'},
+            status=status.HTTP_400_BAD_REQUEST
+        ) 
 
 class SubspaceLeaveView(views.APIView):
     """
