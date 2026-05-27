@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     
     # REST Auth and Token packages
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'rest_framework_simplejwt.token_blacklist',    
     'corsheaders',
     'allauth',
