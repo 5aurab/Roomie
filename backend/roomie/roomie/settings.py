@@ -22,8 +22,6 @@ INSTALLED_APPS = [
     
     # REST Auth and Token packages
     'rest_framework',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
     'rest_framework_simplejwt.token_blacklist',    
     'corsheaders',
     'allauth',
@@ -146,4 +144,4 @@ CACHES = {
     }
 }
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
