@@ -242,10 +242,6 @@ class _AuthScreenState extends State<AuthScreen> {
               )
             : RoomieSocialButtons(
                 onGoogleTap: _handleGoogleSignIn,
-                onAppleTap: () {
-                  // todo: wire up once backend has Apple endpoint
-                  _showErrorSnackbar('apple sign-in coming soon');
-                },
               ),
         const SizedBox(height: 20),
         const RoomieTermsText(),

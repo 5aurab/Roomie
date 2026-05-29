@@ -3,12 +3,10 @@ import '../themes/colors.dart';
 
 class RoomieSocialButtons extends StatelessWidget {
   final VoidCallback onGoogleTap;
-  final VoidCallback onAppleTap;
 
   const RoomieSocialButtons({
     super.key,
     required this.onGoogleTap,
-    required this.onAppleTap,
   });
 
   @override
@@ -21,16 +19,8 @@ class RoomieSocialButtons extends StatelessWidget {
             icon: Icons.g_mobiledata_rounded,
             onTap: onGoogleTap,
           ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _SocialButton(
-            label: 'Apple',
-            icon: Icons.apple,
-            onTap: onAppleTap,
-          ),
-        ),
-      ],
+        )
+      ]
     );
   }
 }
