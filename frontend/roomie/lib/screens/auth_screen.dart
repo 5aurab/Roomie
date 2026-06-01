@@ -11,8 +11,7 @@ import '../services/auth_services.dart';
 import 'verification_screen.dart';
 import 'forgot_password_screen.dart';
 import '../widgets/error_banner.dart';
-import '../widgets/field_error.dart';
-
+import '../widgets/dob_picker.dart';
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -110,45 +109,6 @@ class _AuthScreenState extends State<AuthScreen> {
     return age >= 16;
   }
 
-  Future<void> _pickDob() async {
-    final now = DateTime.now();
-    final maxDate = DateTime(now.year - 16, now.month, now.day);
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDob ?? maxDate,
-      firstDate: DateTime(1900),
-      lastDate: maxDate,
-      helpText: 'select date of birth',
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: RoomieColors.primary,
-              onPrimary: RoomieColors.logoText,
-              onSurface: RoomieColors.text,
-              surface: RoomieColors.bg,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: RoomieColors.primary,
-              ),
-            ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: RoomieColors.bg,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDob = picked;
-        _dobError = null;
-      });
-    }
-  }
-
   Future<void> _handleSignup() async {
     setState(() => _signupError = null);
 
@@ -218,11 +178,6 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
     );
   }
-
-  String _formatDob(DateTime d) =>
-      '${d.day.toString().padLeft(2, '0')} / '
-      '${d.month.toString().padLeft(2, '0')} / '
-      '${d.year}';
 
   // ─── Bottom section (shared) ───────────────────────────────────────────────
 
@@ -359,52 +314,14 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 14),
 
-          const RoomieFieldLabel('date of birth'),
-          const SizedBox(height: 6),
-          GestureDetector(
-            onTap: _pickDob,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: _dobError != null
-                      ? RoomieColors.error
-                      : RoomieColors.border,
-                  width: _dobError != null ? 1.5 : 1,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.calendar_today_outlined,
-                    size: 16,
-                    color: _selectedDob != null
-                        ? RoomieColors.primary
-                        : RoomieColors.hint,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    _selectedDob != null
-                        ? _formatDob(_selectedDob!)
-                        : 'dd / mm / yyyy',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: _selectedDob != null
-                          ? RoomieColors.text
-                          : RoomieColors.hint,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          RoomieDobPicker(
+            selectedDob: _selectedDob,
+            error: _dobError,
+            onChanged: (date) => setState(() {
+              _selectedDob = date;
+              _dobError = null;
+            }),
           ),
-          if (_dobError != null) ...[
-              const SizedBox(height: 5),
-              RoomieFieldError(message: _dobError!),
-          ],
           const SizedBox(height: 14),
 
           const RoomieFieldLabel('email'),
@@ -452,7 +369,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
           // ── Error banner ──
             if (_signupError != null) ...[
-              RoomieErrorBanner(message: _loginError!), 
+              RoomieErrorBanner(message: _signupError!), 
               const SizedBox(height: 12),
             ],
           const SizedBox(height: 12),
