@@ -49,6 +49,32 @@ class JoinHouseholdView(views.APIView):
             return response.Response(HouseholdMemberSerializer(member).data, status=status.HTTP_201_CREATED)
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request, join_code=None):
+        if not join_code:
+            return response.Response(
+                {'error': 'join_code required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            household = Household.objects.get(join_code=join_code.upper())
+        except Household.DoesNotExist:
+            return response.Response(
+                {'error': 'Invalid join code'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        if HouseholdMember.objects.filter(household=household, user=request.user).exists():
+            return response.Response(
+                {'error': 'Already a member'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        member = HouseholdMember.objects.create(
+            household=household,
+            user=request.user
+        )
+        return response.Response(
+            HouseholdMemberSerializer(member).data,
+            status=status.HTTP_201_CREATED
+        )
 
 class HouseholdMembersView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
