@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 import '../widgets/headers.dart';
-import '../widgets/feature.dart';
 import '../widgets/auth_tabs.dart';
 import '../widgets/field_labels.dart';
 import '../widgets/primary_button.dart';
@@ -483,7 +482,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 32),
                   const RoomieHeader(),
                   const SizedBox(height: 28),
-                  const RoomieFeaturePills(),
                   const SizedBox(height: 28),
                   const Divider(color: RoomieColors.border, thickness: 0.5),
                   const SizedBox(height: 24),
