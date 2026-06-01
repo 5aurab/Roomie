@@ -11,6 +11,8 @@ import '../widgets/terms_text.dart';
 import '../services/auth_services.dart';
 import 'verification_screen.dart';
 import 'forgot_password_screen.dart';
+import '../widgets/error_banner.dart';
+import '../widgets/field_error.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -129,10 +131,12 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                  foregroundColor: RoomieColors.primary),
+                foregroundColor: RoomieColors.primary,
+              ),
             ),
-            dialogTheme:
-                const DialogThemeData(backgroundColor: RoomieColors.bg),
+            dialogTheme: const DialogThemeData(
+              backgroundColor: RoomieColors.bg,
+            ),
           ),
           child: child!,
         );
@@ -161,7 +165,6 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() => _isSignupLoading = true);
 
     final error = await AuthService.signup(
-      fullName: _fullNameController.text.trim(),
       displayName: _displayNameController.text.trim(),
       email: _signupEmailController.text.trim(),
       password: _signupPasswordController.text,
@@ -240,9 +243,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ),
               )
-            : RoomieSocialButtons(
-                onGoogleTap: _handleGoogleSignIn,
-              ),
+            : RoomieSocialButtons(onGoogleTap: _handleGoogleSignIn),
         const SizedBox(height: 20),
         const RoomieTermsText(),
       ],
@@ -288,7 +289,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   color: RoomieColors.primaryMid,
                 ),
                 onPressed: () => setState(
-                    () => _obscureLoginPassword = !_obscureLoginPassword),
+                  () => _obscureLoginPassword = !_obscureLoginPassword,
+                ),
               ),
             ),
             validator: (v) {
@@ -301,7 +303,7 @@ class _AuthScreenState extends State<AuthScreen> {
           // ── Error banner ──
           if (_loginError != null) ...[
             const SizedBox(height: 4),
-            _ErrorBanner(message: _loginError!),
+            RoomieErrorBanner(message: _loginError!),
             const SizedBox(height: 4),
           ],
 
@@ -317,8 +319,7 @@ class _AuthScreenState extends State<AuthScreen> {
               },
               child: const Text(
                 'forgot password?',
-                style:
-                    TextStyle(fontSize: 12, color: RoomieColors.primaryMid),
+                style: TextStyle(fontSize: 12, color: RoomieColors.primaryMid),
               ),
             ),
           ),
@@ -343,26 +344,12 @@ class _AuthScreenState extends State<AuthScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const RoomieFieldLabel('full name'),
-          const SizedBox(height: 6),
-          TextFormField(
-            controller: _fullNameController,
-            textCapitalization: TextCapitalization.words,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('your full name'),
-            validator: (v) {
-              if (v == null || v.trim().isEmpty) return 'full name is required';
-              return null;
-            },
-          ),
-          const SizedBox(height: 14),
-
           const RoomieFieldLabel('display name'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _displayNameController,
             style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('what your roommates see'),
+            decoration: RoomieInputDecoration.of('Your Name'),
             validator: (v) {
               if (v == null || v.trim().isEmpty) {
                 return 'display name is required';
@@ -379,8 +366,7 @@ class _AuthScreenState extends State<AuthScreen> {
             onTap: _pickDob,
             child: Container(
               width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
@@ -417,15 +403,8 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ),
           if (_dobError != null) ...[
-            const SizedBox(height: 5),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _dobError!,
-                style: const TextStyle(
-                    fontSize: 11, color: RoomieColors.errorText),
-              ),
-            ),
+              const SizedBox(height: 5),
+              RoomieFieldError(message: _dobError!),
           ],
           const SizedBox(height: 14),
 
@@ -450,8 +429,7 @@ class _AuthScreenState extends State<AuthScreen> {
             controller: _signupPasswordController,
             obscureText: _obscureSignupPassword,
             style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration:
-                RoomieInputDecoration.of('create a password').copyWith(
+            decoration: RoomieInputDecoration.of('create a password').copyWith(
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureSignupPassword
@@ -461,7 +439,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   color: RoomieColors.primaryMid,
                 ),
                 onPressed: () => setState(
-                    () => _obscureSignupPassword = !_obscureSignupPassword),
+                  () => _obscureSignupPassword = !_obscureSignupPassword,
+                ),
               ),
             ),
             validator: (v) {
@@ -473,11 +452,10 @@ class _AuthScreenState extends State<AuthScreen> {
           const SizedBox(height: 12),
 
           // ── Error banner ──
-          if (_signupError != null) ...[
-            _ErrorBanner(message: _signupError!),
-            const SizedBox(height: 12),
-          ],
-
+            if (_signupError != null) ...[
+              RoomieErrorBanner(message: _loginError!), 
+              const SizedBox(height: 12),
+            ],
           const SizedBox(height: 12),
           RoomiePrimaryButton(
             label: 'create account →',
@@ -526,10 +504,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildLoginForm(),
-                        const SizedBox(height: 32),
-                      ],
+                      children: [_buildLoginForm(), const SizedBox(height: 32)],
                     ),
                   ),
                   SingleChildScrollView(
@@ -547,40 +522,6 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// ─── Shared error banner widget ──────────────────────────────────────────────
-
-class _ErrorBanner extends StatelessWidget {
-  final String message;
-  const _ErrorBanner({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: RoomieColors.error.withValues(alpha: 0.08),
-        border: Border.all(color: RoomieColors.error.withValues(alpha: 0.3)),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.error_outline_rounded,
-              size: 14, color: RoomieColors.errorText),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(
-                  fontSize: 12, color: RoomieColors.errorText),
-            ),
-          ),
-        ],
       ),
     );
   }
