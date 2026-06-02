@@ -50,9 +50,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       appBar: AppBar(
-        backgroundColor: RoomieColors.bg,
+        backgroundColor: RColors.bg,
         elevation: 0,
         // No back button — user must use the action below
         automaticallyImplyLeading: false,
@@ -71,14 +71,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 16),
-        const RoomieLogo(),
+        const Logo(),
         const SizedBox(height: 28),
         const Text(
           'Reset Password',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
-            color: RoomieColors.text,
+            color: RColors.text,
             letterSpacing: -0.3,
           ),
         ),
@@ -89,7 +89,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w300,
-            color: RoomieColors.primaryMid,
+            color: RColors.primaryMid,
             height: 1.6,
           ),
         ),
@@ -99,20 +99,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const RoomieFieldLabel('new password'),
+              const FieldLabel('new password'),
               const SizedBox(height: 6),
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
-                style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-                decoration: RoomieInputDecoration.of('create a password').copyWith(
+                style: const TextStyle(fontSize: 13, color: RColors.text),
+                decoration: RoomieDecor.of('create a password').copyWith(
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
                       size: 18,
-                      color: RoomieColors.primaryMid,
+                      color: RColors.primaryMid,
                     ),
                     onPressed: () =>
                         setState(() => _obscurePassword = !_obscurePassword),
@@ -125,20 +125,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 },
               ),
               const SizedBox(height: 14),
-              const RoomieFieldLabel('confirm password'),
+              const FieldLabel('confirm password'),
               const SizedBox(height: 6),
               TextFormField(
                 controller: _confirmController,
                 obscureText: _obscureConfirm,
-                style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-                decoration: RoomieInputDecoration.of('repeat your password').copyWith(
+                style: const TextStyle(fontSize: 13, color: RColors.text),
+                decoration: RoomieDecor.of('repeat your password').copyWith(
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirm
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
                       size: 18,
-                      color: RoomieColors.primaryMid,
+                      color: RColors.primaryMid,
                     ),
                     onPressed: () =>
                         setState(() => _obscureConfirm = !_obscureConfirm),
@@ -153,7 +153,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 },
               ),
               const SizedBox(height: 24),
-              RoomiePrimaryButton(
+              PrimaryButton(
                 label: 'save password →',
                 isLoading: _isLoading,
                 onPressed: _handleReset,
@@ -174,12 +174,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           width: 64,
           height: 64,
           decoration: BoxDecoration(
-            color: RoomieColors.primaryLight,
+            color: RColors.primaryLight,
             shape: BoxShape.circle,
           ),
           child: const Icon(
             Icons.check_rounded,
-            color: RoomieColors.primary,
+            color: RColors.primary,
             size: 32,
           ),
         ),
@@ -189,7 +189,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
-            color: RoomieColors.text,
+            color: RColors.text,
             letterSpacing: -0.3,
           ),
         ),
@@ -200,12 +200,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w300,
-            color: RoomieColors.primaryMid,
+            color: RColors.primaryMid,
             height: 1.6,
           ),
         ),
         const SizedBox(height: 40),
-        RoomiePrimaryButton(
+        PrimaryButton(
           label: 'back to login →',
           isLoading: false,
           onPressed: _goToLogin,

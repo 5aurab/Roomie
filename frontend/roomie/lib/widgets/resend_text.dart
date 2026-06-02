@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieResendText extends StatelessWidget {
+class ResendText extends StatelessWidget {
   final bool canResend;
   final int countdown;
   final VoidCallback onResend;
 
-  const RoomieResendText({
+  const ResendText({
     super.key,
     required this.canResend,
     required this.countdown,
@@ -21,7 +21,7 @@ class RoomieResendText extends StatelessWidget {
         text: TextSpan(
           style: const TextStyle(
             fontSize: 13,
-            color: RoomieColors.primaryMid,
+            color: RColors.primaryMid,
           ),
           children: [
             const TextSpan(text: "didn't get it? "),
@@ -32,8 +32,8 @@ class RoomieResendText extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: canResend
-                    ? RoomieColors.primary
-                    : RoomieColors.primaryMid,
+                    ? RColors.primary
+                    : RColors.primaryMid,
               ),
             ),
           ],

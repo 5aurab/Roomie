@@ -8,11 +8,11 @@ import '../widgets/or_divider.dart';
 import '../widgets/social_buttons.dart';
 import '../widgets/terms_text.dart';
 import '../services/auth_services.dart';
-import 'verification_screen.dart';
-import 'forgot_password_screen.dart';
+import 'verification.dart';
+import 'forgot_password.dart';
 import '../widgets/error_banner.dart';
 import '../widgets/dob_picker.dart';
-import 'welcome_screen.dart';
+import 'welcome.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -183,7 +183,7 @@ class _AuthScreenState extends State<AuthScreen> {
           message,
           style: const TextStyle(fontSize: 13, color: Colors.white),
         ),
-        backgroundColor: RoomieColors.error,
+        backgroundColor: RColors.error,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: const EdgeInsets.all(16),
@@ -197,7 +197,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return Column(
       children: [
         const SizedBox(height: 24),
-        const RoomieOrDivider(),
+        const OrDivider(),
         const SizedBox(height: 16),
         _isSocialLoading
             ? const SizedBox(
@@ -205,13 +205,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 child: Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: RoomieColors.primary,
+                    color: RColors.primary,
                   ),
                 ),
               )
-            : RoomieSocialButtons(onGoogleTap: _handleGoogleSignIn),
+            : SocialButtons(onGoogleTap: _handleGoogleSignIn),
         const SizedBox(height: 20),
-        const RoomieTermsText(),
+        const TermsText(),
       ],
     );
   }
@@ -224,13 +224,13 @@ class _AuthScreenState extends State<AuthScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const RoomieFieldLabel('email'),
+          const FieldLabel('email'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _loginEmailController,
             keyboardType: TextInputType.emailAddress,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('you@email.com'),
+            style: const TextStyle(fontSize: 13, color: RColors.text),
+            decoration: RoomieDecor.of('you@email.com'),
             validator: (v) {
               if (v == null || v.isEmpty) return 'email is required';
               if (!v.contains('@')) return 'enter a valid email';
@@ -239,20 +239,20 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 14),
 
-          const RoomieFieldLabel('password'),
+          const FieldLabel('password'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _loginPasswordController,
             obscureText: _obscureLoginPassword,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('••••••••').copyWith(
+            style: const TextStyle(fontSize: 13, color: RColors.text),
+            decoration: RoomieDecor.of('••••••••').copyWith(
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureLoginPassword
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
                   size: 18,
-                  color: RoomieColors.primaryMid,
+                  color: RColors.primaryMid,
                 ),
                 onPressed: () => setState(
                   () => _obscureLoginPassword = !_obscureLoginPassword,
@@ -268,7 +268,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
           if (_loginError != null) ...[
             const SizedBox(height: 4),
-            RoomieErrorBanner(message: _loginError!),
+            ErrorBanner(message: _loginError!),
             const SizedBox(height: 4),
           ],
 
@@ -280,13 +280,13 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               child: const Text(
                 'forgot password?',
-                style: TextStyle(fontSize: 12, color: RoomieColors.primaryMid),
+                style: TextStyle(fontSize: 12, color: RColors.primaryMid),
               ),
             ),
           ),
           const SizedBox(height: 20),
 
-          RoomiePrimaryButton(
+          PrimaryButton(
             label: 'log in →',
             isLoading: _isLoginLoading,
             onPressed: _handleLogin,
@@ -305,12 +305,12 @@ class _AuthScreenState extends State<AuthScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const RoomieFieldLabel('display name'),
+          const FieldLabel('display name'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _displayNameController,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('your name'),
+            style: const TextStyle(fontSize: 13, color: RColors.text),
+            decoration: RoomieDecor.of('your name'),
             validator: (v) {
               if (v == null || v.trim().isEmpty) {
                 return 'display name is required';
@@ -321,7 +321,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 14),
 
-          RoomieDobPicker(
+          DobPicker(
             selectedDob: _selectedDob,
             error: _dobError,
             onChanged: (date) => setState(() {
@@ -331,13 +331,13 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 14),
 
-          const RoomieFieldLabel('email'),
+          const FieldLabel('email'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _signupEmailController,
             keyboardType: TextInputType.emailAddress,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('you@email.com'),
+            style: const TextStyle(fontSize: 13, color: RColors.text),
+            decoration: RoomieDecor.of('you@email.com'),
             validator: (v) {
               if (v == null || v.isEmpty) return 'email is required';
               if (!v.contains('@')) return 'enter a valid email';
@@ -346,20 +346,20 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 14),
 
-          const RoomieFieldLabel('password'),
+          const FieldLabel('password'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _signupPasswordController,
             obscureText: _obscureSignupPassword,
-            style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('create a password').copyWith(
+            style: const TextStyle(fontSize: 13, color: RColors.text),
+            decoration: RoomieDecor.of('create a password').copyWith(
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureSignupPassword
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
                   size: 18,
-                  color: RoomieColors.primaryMid,
+                  color: RColors.primaryMid,
                 ),
                 onPressed: () => setState(
                   () => _obscureSignupPassword = !_obscureSignupPassword,
@@ -375,11 +375,11 @@ class _AuthScreenState extends State<AuthScreen> {
           const SizedBox(height: 12),
 
           if (_signupError != null) ...[
-            RoomieErrorBanner(message: _signupError!),
+            ErrorBanner(message: _signupError!),
             const SizedBox(height: 12),
           ],
 
-          RoomiePrimaryButton(
+          PrimaryButton(
             label: 'create account →',
             isLoading: _isSignupLoading,
             onPressed: _handleSignup,
@@ -395,7 +395,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -405,11 +405,11 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-                  const RoomieHeader(),
+                  const Header(),
                   const SizedBox(height: 28),
-                  const Divider(color: RoomieColors.border, thickness: 0.5),
+                  const Divider(color: RColors.border, thickness: 0.5),
                   const SizedBox(height: 24),
-                  RoomieAuthTabs(
+                  AuthTabs(
                     activeTab: _isLogin ? 'login' : 'signup',
                     onInactiveTap: () => _switchTab(!_isLogin),
                   ),

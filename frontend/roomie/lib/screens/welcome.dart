@@ -8,7 +8,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -16,14 +16,14 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               const Spacer(),
 
-              const RoomieLogo(),
+              const Logo(),
               const SizedBox(height: 14),
               const Text(
                 'roomie',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
-                  color: RoomieColors.text,
+                  color: RColors.text,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -34,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w300,
-                  color: RoomieColors.primaryMid,
+                  color: RColors.primaryMid,
                   height: 1.5,
                 ),
               ),
@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -98,7 +98,7 @@ class WelcomeScreen extends StatelessWidget {
                   width: 36,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: RoomieColors.border,
+                    color: RColors.border,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -110,7 +110,7 @@ class WelcomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: RoomieColors.text,
+                  color: RColors.text,
                 ),
               ),
               const SizedBox(height: 6),
@@ -119,7 +119,7 @@ class WelcomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w300,
-                  color: RoomieColors.primaryMid,
+                  color: RColors.primaryMid,
                   height: 1.5,
                 ),
               ),
@@ -129,29 +129,29 @@ class WelcomeScreen extends StatelessWidget {
                 controller: controller,
                 autofocus: true,
                 style: const TextStyle(
-                    fontSize: 13, color: RoomieColors.text),
+                    fontSize: 13, color: RColors.text),
                 decoration: InputDecoration(
                   hintText: 'roomie.app/join/xxxxxx',
                   hintStyle: const TextStyle(
-                      fontSize: 13, color: RoomieColors.hint),
+                      fontSize: 13, color: RColors.hint),
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(
                     Icons.link_rounded,
                     size: 18,
-                    color: RoomieColors.primaryMid,
+                    color: RColors.primaryMid,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                       horizontal: 14, vertical: 13),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                        color: RoomieColors.border, width: 1),
+                        color: RColors.border, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                        color: RoomieColors.primary, width: 1.5),
+                        color: RColors.primary, width: 1.5),
                   ),
                 ),
               ),
@@ -166,8 +166,8 @@ class WelcomeScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: RoomieColors.primary,
-                    foregroundColor: RoomieColors.buttonText,
+                    backgroundColor: RColors.primary,
+                    foregroundColor: RColors.buttonText,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -214,9 +214,9 @@ class _SetupButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         decoration: BoxDecoration(
-          color: filled ? RoomieColors.primary : Colors.white,
+          color: filled ? RColors.primary : Colors.white,
           border: Border.all(
-            color: filled ? RoomieColors.primary : RoomieColors.border,
+            color: filled ? RColors.primary : RColors.border,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(16),
@@ -229,13 +229,13 @@ class _SetupButton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: filled
                     ? Colors.white.withValues(alpha: 0.15)
-                    : RoomieColors.primaryLight,
+                    : RColors.primaryLight,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
                 size: 20,
-                color: filled ? Colors.white : RoomieColors.primary,
+                color: filled ? Colors.white : RColors.primary,
               ),
             ),
             const SizedBox(width: 16),
@@ -248,7 +248,7 @@ class _SetupButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: filled ? Colors.white : RoomieColors.text,
+                      color: filled ? Colors.white : RColors.text,
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -259,7 +259,7 @@ class _SetupButton extends StatelessWidget {
                       fontWeight: FontWeight.w300,
                       color: filled
                           ? Colors.white.withValues(alpha: 0.75)
-                          : RoomieColors.primaryMid,
+                          : RColors.primaryMid,
                       height: 1.4,
                     ),
                   ),
@@ -272,7 +272,7 @@ class _SetupButton extends StatelessWidget {
               size: 14,
               color: filled
                   ? Colors.white.withValues(alpha: 0.7)
-                  : RoomieColors.primaryMid,
+                  : RColors.primaryMid,
             ),
           ],
         ),

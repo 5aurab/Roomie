@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieAuthTabs extends StatelessWidget {
+class AuthTabs extends StatelessWidget {
   final String activeTab;
   final VoidCallback onInactiveTap;
 
-  const RoomieAuthTabs({
+  const AuthTabs({
     super.key,
     required this.activeTab,
     required this.onInactiveTap,
@@ -17,7 +17,7 @@ class RoomieAuthTabs extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: RoomieColors.primaryLight,
+        color: RColors.primaryLight,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -61,7 +61,7 @@ class _Tab extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(vertical: 9),
         decoration: BoxDecoration(
-          color: active ? RoomieColors.primary : Colors.transparent,
+          color: active ? RColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
@@ -71,8 +71,8 @@ class _Tab extends StatelessWidget {
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: active
-                ? RoomieColors.buttonText
-                : RoomieColors.primaryMid,
+                ? RColors.buttonText
+                : RColors.primaryMid,
           ),
         ),
       ),

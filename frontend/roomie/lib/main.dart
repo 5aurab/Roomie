@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/auth_screen.dart';
+import 'screens/auth.dart';
 //import '../widgets/bottom_nav_bar.dart';
 //import '../screens/welcome_screen.dart';
 //import '../screens/verification_screen.dart';

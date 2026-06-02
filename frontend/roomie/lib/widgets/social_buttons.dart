@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieSocialButtons extends StatelessWidget {
+class SocialButtons extends StatelessWidget {
   final VoidCallback onGoogleTap;
 
-  const RoomieSocialButtons({
+  const SocialButtons({
     super.key,
     required this.onGoogleTap,
   });
@@ -44,20 +44,20 @@ class _SocialButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 11),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: RoomieColors.border, width: 1),
+          border: Border.all(color: RColors.border, width: 1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 18, color: RoomieColors.primary),
+            Icon(icon, size: 18, color: RColors.primary),
             const SizedBox(width: 6),
             Text(
               label,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: RoomieColors.primary,
+                color: RColors.primary,
               ),
             ),
           ],

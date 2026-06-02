@@ -3,7 +3,7 @@ import '../themes/colors.dart';
 import '../widgets/logo_mark.dart';
 import '../widgets/field_labels.dart';
 import '../widgets/primary_button.dart';
-import 'verification_screen.dart';
+import 'verification.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -46,15 +46,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       appBar: AppBar(
-        backgroundColor: RoomieColors.bg,
+        backgroundColor: RColors.bg,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 18,
-            color: RoomieColors.text,
+            color: RColors.text,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -66,14 +66,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 16),
-              const RoomieLogo(),
+              const Logo(),
               const SizedBox(height: 28),
               const Text(
                 'forgot password?',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: RoomieColors.text,
+                  color: RColors.text,
                   letterSpacing: -0.3,
                 ),
               ),
@@ -84,7 +84,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w300,
-                  color: RoomieColors.primaryMid,
+                  color: RColors.primaryMid,
                   height: 1.6,
                 ),
               ),
@@ -94,16 +94,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const RoomieFieldLabel('email'),
+                    const FieldLabel('email'),
                     const SizedBox(height: 6),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(
                         fontSize: 13,
-                        color: RoomieColors.text,
+                        color: RColors.text,
                       ),
-                      decoration: RoomieInputDecoration.of('you@email.com'),
+                      decoration: RoomieDecor.of('you@email.com'),
                       validator: (v) {
                         if (v == null || v.isEmpty) return 'email is required';
                         if (!v.contains('@')) return 'enter a valid email';
@@ -111,7 +111,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       },
                     ),
                     const SizedBox(height: 24),
-                    RoomiePrimaryButton(
+                    PrimaryButton(
                       label: 'send code →',
                       isLoading: _isLoading,
                       onPressed: _handleSend,

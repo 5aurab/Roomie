@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../themes/colors.dart';
 
-class RoomieOtpInput extends StatelessWidget {
+class OtpInput extends StatelessWidget {
   final List<TextEditingController> controllers;
   final List<FocusNode> focusNodes;
   final bool hasError;
@@ -10,7 +10,7 @@ class RoomieOtpInput extends StatelessWidget {
   final void Function(String value, int index) onChanged;
   final void Function(KeyEvent event, int index) onKeyEvent;
 
-  const RoomieOtpInput({
+  const OtpInput({
     super.key,
     required this.controllers,
     required this.focusNodes,
@@ -45,11 +45,11 @@ class RoomieOtpInput extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Icon(Icons.error_outline_rounded, size: 14, color: RoomieColors.errorText),
+                Icon(Icons.error_outline_rounded, size: 14, color: RColors.errorText),
                 SizedBox(width: 5),
                 Text(
                   'invalid code, please try again',
-                  style: TextStyle(fontSize: 12, color: RoomieColors.errorText),
+                  style: TextStyle(fontSize: 12, color: RColors.errorText),
                 ),
               ],
             ),
@@ -93,26 +93,26 @@ class _OtpBox extends StatelessWidget {
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
-            color: RoomieColors.text,
+            color: RColors.text,
           ),
           decoration: InputDecoration(
             counterText: '',
             filled: true,
-            fillColor: focusNode.hasFocus ? RoomieColors.primaryLight : Colors.white,
+            fillColor: focusNode.hasFocus ? RColors.primaryLight : Colors.white,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: hasError ? RoomieColors.error : RoomieColors.border,
+                color: hasError ? RColors.error : RColors.border,
                 width: hasError ? 1.5 : 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: RoomieColors.primary, width: 1.5),
+              borderSide: const BorderSide(color: RColors.primary, width: 1.5),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: RoomieColors.error, width: 1.5),
+              borderSide: const BorderSide(color: RColors.error, width: 1.5),
             ),
           ),
           onChanged: onChanged,

@@ -4,13 +4,13 @@ import 'field_error.dart';
 import 'dob_text_field.dart';
 import 'dob_calendar_panel.dart';
 
-class RoomieDobPicker extends StatefulWidget {
+class DobPicker extends StatefulWidget {
   final DateTime? selectedDob;
   final String? error;
   final ValueChanged<DateTime?> onChanged;
   final int minAge;
 
-  const RoomieDobPicker({
+  const DobPicker({
     super.key,
     required this.onChanged,
     this.selectedDob,
@@ -19,10 +19,10 @@ class RoomieDobPicker extends StatefulWidget {
   });
 
   @override
-  State<RoomieDobPicker> createState() => _RoomieDobPickerState();
+  State<DobPicker> createState() => _DobPickerState();
 }
 
-class _RoomieDobPickerState extends State<RoomieDobPicker>
+class _DobPickerState extends State<DobPicker>
     with SingleTickerProviderStateMixin {
   bool _calOpen = false;
   late final AnimationController _anim;
@@ -86,7 +86,7 @@ class _RoomieDobPickerState extends State<RoomieDobPicker>
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RoomieDobTextField(
+        DobTextField(
           value: widget.selectedDob,
           onChanged: _onTextChanged,
           onCalendarTap: _toggleCal,
@@ -95,14 +95,14 @@ class _RoomieDobPickerState extends State<RoomieDobPicker>
         ),
         if (widget.error != null) ...[
           const SizedBox(height: 5),
-          RoomieFieldError(message: widget.error!),
+          FieldError(message: widget.error!),
         ] else if (widget.selectedDob != null) ...[
           const SizedBox(height: 5),
           Text(
             'age: ${_calcAge(widget.selectedDob!)} years',
             style: const TextStyle(
               fontSize: 11,
-              color: RoomieColors.primaryMid,
+              color: RColors.primaryMid,
             ),
           ),
         ],
@@ -112,7 +112,7 @@ class _RoomieDobPickerState extends State<RoomieDobPicker>
             opacity: _fade,
             child: SlideTransition(
               position: _slide,
-              child: RoomieDobCalendarPanel(
+              child: DobCalendarPanel(
                 selectedDate: widget.selectedDob,
                 onDateSelected: _onCalendarSelected,
                 minAge: widget.minAge,

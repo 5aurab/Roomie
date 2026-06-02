@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
-import '../screens/calendar_screen.dart';
-import '../screens/bills_screen.dart';
-import '../screens/chores_screen.dart';
-import '../screens/plans_screen.dart';
-import '../screens/surprise_screen.dart';
+import '../screens/home.dart';
+import '../screens/calendar.dart';
+import '../screens/bills.dart';
+import '../screens/chores.dart';
+import '../screens/plans.dart';
+import '../screens/surprise.dart';
 import '../widgets/app_bar.dart';
 import '../themes/colors.dart';
 
@@ -141,7 +141,7 @@ class _MainNavigationState extends State<MainNavigation> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            color: RoomieColors.navBarContainer,
+            color: RColors.navBarContainer,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Row(
@@ -169,7 +169,7 @@ class _MainNavigationState extends State<MainNavigation> {
                     size: 22,
                     color: isSelected
                         ? Theme.of(context).colorScheme.onSurface
-                        : RoomieColors.navBarIconUnselected,
+                        : RColors.navBarIconUnselected,
                   ),
                 ),
               );
@@ -196,7 +196,7 @@ class _MainNavigationState extends State<MainNavigation> {
             icon,
             color: isSelected
                 ? Theme.of(context).colorScheme.onSurface
-                : RoomieColors.navBarIconUnselected,
+                : RColors.navBarIconUnselected,
           ),
         ),
       ),

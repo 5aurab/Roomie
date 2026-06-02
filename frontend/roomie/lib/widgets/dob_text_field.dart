@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import '../themes/colors.dart';
 import 'field_labels.dart';
 
-class RoomieDobTextField extends StatefulWidget {
+class DobTextField extends StatefulWidget {
   final DateTime? value;
   final ValueChanged<DateTime?> onChanged;
   final VoidCallback onCalendarTap;
   final bool hasError;
   final bool calOpen;
 
-  const RoomieDobTextField({
+  const DobTextField({
     super.key,
     required this.value,
     required this.onChanged,
@@ -20,10 +20,10 @@ class RoomieDobTextField extends StatefulWidget {
   });
 
   @override
-  State<RoomieDobTextField> createState() => _RoomieDobTextFieldState();
+  State<DobTextField> createState() => _DobTextFieldState();
 }
 
-class _RoomieDobTextFieldState extends State<RoomieDobTextField> {
+class _DobTextFieldState extends State<DobTextField> {
   late final TextEditingController _ctrl;
 
   @override
@@ -35,7 +35,7 @@ class _RoomieDobTextFieldState extends State<RoomieDobTextField> {
   }
 
   @override
-  void didUpdateWidget(RoomieDobTextField old) {
+  void didUpdateWidget(DobTextField old) {
     super.didUpdateWidget(old);
     if (widget.value != old.value) {
       final text = widget.value != null ? _fmt(widget.value!) : '';
@@ -79,26 +79,26 @@ class _RoomieDobTextFieldState extends State<RoomieDobTextField> {
   @override
   Widget build(BuildContext context) {
     final borderColor = widget.hasError
-        ? RoomieColors.error
+        ? RColors.error
         : widget.calOpen
-            ? RoomieColors.primary
-            : RoomieColors.border;
+            ? RColors.primary
+            : RColors.border;
     final borderWidth = (widget.calOpen || widget.hasError) ? 1.5 : 1.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RoomieFieldLabel('date of birth'),
+        const FieldLabel('date of birth'),
         const SizedBox(height: 6),
         TextFormField(
           controller: _ctrl,
           keyboardType: TextInputType.number,
           inputFormatters: [_DobInputFormatter()],
           onChanged: _onChanged,
-          style: const TextStyle(fontSize: 13, color: RoomieColors.text),
+          style: const TextStyle(fontSize: 13, color: RColors.text),
           decoration: InputDecoration(
             hintText: 'DD / MM / YYYY',
-            hintStyle: const TextStyle(fontSize: 13, color: RoomieColors.hint),
+            hintStyle: const TextStyle(fontSize: 13, color: RColors.hint),
             filled: true,
             fillColor: Colors.white,
             contentPadding:
@@ -113,8 +113,8 @@ class _RoomieDobTextFieldState extends State<RoomieDobTextField> {
                       : Icons.calendar_today_outlined,
                   size: 18,
                   color: widget.hasError
-                      ? RoomieColors.error
-                      : RoomieColors.primaryMid,
+                      ? RColors.error
+                      : RColors.primaryMid,
                 ),
               ),
             ),
@@ -127,7 +127,7 @@ class _RoomieDobTextFieldState extends State<RoomieDobTextField> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: widget.hasError ? RoomieColors.error : RoomieColors.primary,
+                color: widget.hasError ? RColors.error : RColors.primary,
                 width: 1.5,
               ),
             ),

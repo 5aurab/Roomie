@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieVerificationSubtitle extends StatelessWidget {
+class VerificationSubtitle extends StatelessWidget {
   final String email;
 
-  const RoomieVerificationSubtitle({
+  const VerificationSubtitle({
     super.key,
     required this.email,
   });
@@ -26,7 +26,7 @@ class RoomieVerificationSubtitle extends StatelessWidget {
         style: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w300,
-          color: RoomieColors.primaryMid,
+          color: RColors.primaryMid,
           height: 1.6,
         ),
         children: [
@@ -35,7 +35,7 @@ class RoomieVerificationSubtitle extends StatelessWidget {
             text: _masked,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
-              color: RoomieColors.text,
+              color: RColors.text,
             ),
           ),
         ],

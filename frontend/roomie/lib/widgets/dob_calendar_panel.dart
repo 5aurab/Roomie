@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieDobCalendarPanel extends StatefulWidget {
+class DobCalendarPanel extends StatefulWidget {
   final DateTime? selectedDate;
   final ValueChanged<DateTime> onDateSelected;
   final int minAge;
 
-  const RoomieDobCalendarPanel({
+  const DobCalendarPanel({
     super.key,
     required this.onDateSelected,
     this.selectedDate,
@@ -14,10 +14,10 @@ class RoomieDobCalendarPanel extends StatefulWidget {
   });
 
   @override
-  State<RoomieDobCalendarPanel> createState() => _RoomieDobCalendarPanelState();
+  State<DobCalendarPanel> createState() => _DobCalendarPanelState();
 }
 
-class _RoomieDobCalendarPanelState extends State<RoomieDobCalendarPanel> {
+class _DobCalendarPanelState extends State<DobCalendarPanel> {
   late int _viewYear;
   late int _viewMonth;
 
@@ -112,10 +112,10 @@ class _RoomieDobCalendarPanelState extends State<RoomieDobCalendarPanel> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: RoomieColors.border, width: 1),
+        border: Border.all(color: RColors.border, width: 1),
         boxShadow: [
           BoxShadow(
-            color: RoomieColors.primary.withValues(alpha: 0.08),
+            color: RColors.primary.withValues(alpha: 0.08),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -136,7 +136,7 @@ class _RoomieDobCalendarPanelState extends State<RoomieDobCalendarPanel> {
           const VerticalDivider(
             width: 1,
             thickness: 1,
-            color: RoomieColors.border,
+            color: RColors.border,
           ),
           Expanded(
             child: _MonthGrid(
@@ -196,7 +196,7 @@ class _YearColumn extends StatelessWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 120),
                 alignment: Alignment.center,
-                color: isSel ? RoomieColors.primaryLight : Colors.transparent,
+                color: isSel ? RColors.primaryLight : Colors.transparent,
                 child: Text(
                   '$year',
                   style: TextStyle(
@@ -204,8 +204,8 @@ class _YearColumn extends StatelessWidget {
                     fontWeight:
                         isSel ? FontWeight.w600 : FontWeight.w400,
                     color: isSel
-                        ? RoomieColors.primary
-                        : RoomieColors.primaryMid,
+                        ? RColors.primary
+                        : RColors.primaryMid,
                   ),
                 ),
               ),
@@ -271,7 +271,7 @@ class _MonthGrid extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: RoomieColors.primary,
+                      color: RColors.primary,
                     ),
                   ),
                 ),
@@ -293,7 +293,7 @@ class _MonthGrid extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
-                            color: RoomieColors.hint,
+                            color: RColors.hint,
                           ),
                         ),
                       ),
@@ -330,12 +330,12 @@ class _MonthGrid extends StatelessWidget {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                       color: isSel
-                          ? RoomieColors.primary
+                          ? RColors.primary
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(7),
                       border: isToday && !isSel
                           ? Border.all(
-                              color: RoomieColors.border, width: 1)
+                              color: RColors.border, width: 1)
                           : null,
                     ),
                     alignment: Alignment.center,
@@ -349,7 +349,7 @@ class _MonthGrid extends StatelessWidget {
                             ? Colors.white
                             : allowed
                                 ? const Color(0xFF1A1A2E)
-                                : RoomieColors.hint,
+                                : RColors.hint,
                       ),
                     ),
                   ),
@@ -384,7 +384,7 @@ class _NavBtn extends StatelessWidget {
         child: Icon(
           icon,
           size: 18,
-          color: onTap != null ? RoomieColors.primaryMid : RoomieColors.hint,
+          color: onTap != null ? RColors.primaryMid : RColors.hint,
         ),
       ),
     );
