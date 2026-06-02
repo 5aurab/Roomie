@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomieLogo extends StatelessWidget {
-  const RoomieLogo({super.key});
+class Logo extends StatelessWidget {
+  const Logo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class RoomieLogo extends StatelessWidget {
       width: 68,
       height: 68,
       decoration: BoxDecoration(
-        color: RoomieColors.primary,
+        color: RColors.primary,
         borderRadius: BorderRadius.circular(22),
       ),
       child: const Center(
@@ -19,7 +19,7 @@ class RoomieLogo extends StatelessWidget {
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.w600,
-            color: RoomieColors.logoText,
+            color: RColors.logoText,
           ),
         ),
       ),

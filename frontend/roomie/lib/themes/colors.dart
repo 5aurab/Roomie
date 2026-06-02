@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RoomieColors {
+class RColors {
   static const Color primary = Color(0xFF3D2B9E);
   static const Color primaryLight = Color(0xFFEDE8FF);
   static const Color primaryMid = Color(0xFF7B6BAA);

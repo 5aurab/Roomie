@@ -6,7 +6,7 @@ import '../widgets/otp_input.dart';
 import '../widgets/resend_text.dart';
 import '../widgets/verification_subtitle.dart';
 import '../widgets/primary_button.dart';
-import 'reset_password_screen.dart';
+import 'reset_password.dart';
 
 /// Controls what happens after a successful verification.
 enum VerificationMode {
@@ -188,15 +188,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RoomieColors.bg,
+      backgroundColor: RColors.bg,
       appBar: AppBar(
-        backgroundColor: RoomieColors.bg,
+        backgroundColor: RColors.bg,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 18,
-            color: RoomieColors.text,
+            color: RColors.text,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -208,21 +208,21 @@ class _VerificationScreenState extends State<VerificationScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 16),
-              const RoomieLogo(),
+              const Logo(),
               const SizedBox(height: 28),
               Text(
                 _title,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: RoomieColors.text,
+                  color: RColors.text,
                   letterSpacing: -0.3,
                 ),
               ),
               const SizedBox(height: 10),
-              RoomieVerificationSubtitle(email: widget.email),
+              VerificationSubtitle(email: widget.email),
               const SizedBox(height: 40),
-              RoomieOtpInput(
+              OtpInput(
                 controllers: _controllers,
                 focusNodes: _focusNodes,
                 hasError: _hasError,
@@ -230,13 +230,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 onKeyEvent: _onKeyEvent,
               ),
               const SizedBox(height: 32),
-              RoomiePrimaryButton(
+              PrimaryButton(
                 label: 'verify →',
                 isLoading: _isLoading,
                 onPressed: _isCodeComplete() ? _handleVerify : null,
               ),
               const SizedBox(height: 24),
-              RoomieResendText(
+              ResendText(
                 canResend: _canResend,
                 countdown: _resendCountdown,
                 onResend: _onResend,

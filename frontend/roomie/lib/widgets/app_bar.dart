@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../screens/notification_screen.dart';
-import '../screens/profile_screen.dart';
+import '../screens/notification.dart';
+import '../screens/profile.dart';
 
 class RoomieAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int currentIndex;

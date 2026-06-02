@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
-class RoomiePrimaryButton extends StatelessWidget {
+class PrimaryButton extends StatelessWidget {
   final String label;
   final bool isLoading;
   final VoidCallback? onPressed;
 
-  const RoomiePrimaryButton({
+  const PrimaryButton({
     super.key,
     required this.label,
     required this.onPressed,
@@ -21,9 +21,9 @@ class RoomiePrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: RoomieColors.primary,
-          foregroundColor: RoomieColors.buttonText,
-          disabledBackgroundColor: RoomieColors.primary.withValues(alpha: 0.45),
+          backgroundColor: RColors.primary,
+          foregroundColor: RColors.buttonText,
+          disabledBackgroundColor: RColors.primary.withValues(alpha: 0.45),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
