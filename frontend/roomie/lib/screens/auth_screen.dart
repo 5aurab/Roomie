@@ -12,6 +12,7 @@ import 'verification_screen.dart';
 import 'forgot_password_screen.dart';
 import '../widgets/error_banner.dart';
 import '../widgets/dob_picker.dart';
+import 'welcome_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -94,7 +95,9 @@ class _AuthScreenState extends State<AuthScreen> {
     if (error != null) {
       setState(() => _loginError = error);
     } else {
-      // TODO: navigate to HomeScreen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+      );
     }
   }
 
@@ -121,7 +124,9 @@ class _AuthScreenState extends State<AuthScreen> {
       return;
     }
     if (!_isAgeValid(_selectedDob!)) {
-      setState(() => _dobError = 'you must be at least 16 years old to use roomie');
+      setState(
+        () => _dobError = 'you must be at least 16 years old to use roomie',
+      );
       return;
     }
     if (!_signupFormKey.currentState!.validate()) return;
@@ -165,7 +170,9 @@ class _AuthScreenState extends State<AuthScreen> {
     if (error != null) {
       _showErrorSnackbar(error);
     } else {
-      // TODO: navigate to HomeScreen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+      );
     }
   }
 
@@ -247,8 +254,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   size: 18,
                   color: RoomieColors.primaryMid,
                 ),
-                onPressed: () =>
-                    setState(() => _obscureLoginPassword = !_obscureLoginPassword),
+                onPressed: () => setState(
+                  () => _obscureLoginPassword = !_obscureLoginPassword,
+                ),
               ),
             ),
             validator: (v) {
@@ -268,9 +276,7 @@ class _AuthScreenState extends State<AuthScreen> {
             alignment: Alignment.centerRight,
             child: GestureDetector(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const ForgotPasswordScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
               ),
               child: const Text(
                 'forgot password?',
@@ -306,7 +312,9 @@ class _AuthScreenState extends State<AuthScreen> {
             style: const TextStyle(fontSize: 13, color: RoomieColors.text),
             decoration: RoomieInputDecoration.of('your name'),
             validator: (v) {
-              if (v == null || v.trim().isEmpty) return 'display name is required';
+              if (v == null || v.trim().isEmpty) {
+                return 'display name is required';
+              }
               if (v.trim().length < 2) return 'must be at least 2 characters';
               return null;
             },
@@ -418,10 +426,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildLoginForm(),
-                        const SizedBox(height: 32),
-                      ],
+                      children: [_buildLoginForm(), const SizedBox(height: 32)],
                     ),
                   ),
                   SingleChildScrollView(
