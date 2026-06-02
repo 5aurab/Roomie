@@ -1,4 +1,5 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:system",
-    "cmake.sourceDirectory": "C:/Users/sneup/source/repos/roomie/Roomie/frontend/roomie/linux"
+    "cmake.sourceDirectory": "C:/Users/sneup/source/repos/roomie/Roomie/frontend/roomie/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
