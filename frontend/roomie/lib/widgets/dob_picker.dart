@@ -1,249 +1,124 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
-import 'field_labels.dart';
 import 'field_error.dart';
+import 'dob_text_field.dart';
+import 'dob_calendar_panel.dart';
 
 class RoomieDobPicker extends StatefulWidget {
   final DateTime? selectedDob;
   final String? error;
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<DateTime?> onChanged;
+  final int minAge;
 
   const RoomieDobPicker({
     super.key,
     required this.onChanged,
     this.selectedDob,
     this.error,
+    this.minAge = 16,
   });
 
   @override
   State<RoomieDobPicker> createState() => _RoomieDobPickerState();
 }
 
-class _RoomieDobPickerState extends State<RoomieDobPicker> {
-  String _formatDob(DateTime d) =>
-      '${d.day.toString().padLeft(2, '0')} / '
-      '${d.month.toString().padLeft(2, '0')} / '
-      '${d.year}';
+class _RoomieDobPickerState extends State<RoomieDobPicker>
+    with SingleTickerProviderStateMixin {
+  bool _calOpen = false;
+  late final AnimationController _anim;
+  late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
 
-  Future<void> _open() async {
-    DateTime? tempSelected = widget.selectedDob;
-
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Container(
-              decoration: const BoxDecoration(
-                color: RoomieColors.bg,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-                left: 24,
-                right: 24,
-                top: 20,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ── Drag handle ──────────────────────────────────────────
-                  Center(
-                    child: Container(
-                      width: 36,
-                      height: 4,
-                      margin: const EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        color: RoomieColors.border,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-
-                  // ── Title ────────────────────────────────────────────────
-                  const Text(
-                    'date of birth',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: RoomieColors.text,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'you must be 18 or older to use roomie',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: RoomieColors.hint,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // ── Calendar ─────────────────────────────────────────────
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      colorScheme: Theme.of(context).colorScheme.copyWith(
-                            primary: RoomieColors.primary,
-                            onPrimary: Colors.white,
-                            onSurface: RoomieColors.text,
-                            surface: RoomieColors.bg,
-                          ),
-                      textTheme: Theme.of(context).textTheme.copyWith(
-                            bodyMedium: const TextStyle(
-                              fontSize: 13,
-                              color: RoomieColors.text,
-                            ),
-                          ),
-                      textButtonTheme: TextButtonThemeData(
-                        style: TextButton.styleFrom(
-                          foregroundColor: RoomieColors.primary,
-                          textStyle: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: CalendarDatePicker(
-                      initialDate:
-                          tempSelected ?? DateTime(DateTime.now().year - 20),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(
-                        DateTime.now().year - 18,
-                        DateTime.now().month,
-                        DateTime.now().day,
-                      ),
-                      onDateChanged: (date) {
-                        setModalState(() => tempSelected = date);
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 4),
-                  const Divider(color: RoomieColors.border, thickness: 0.5),
-                  const SizedBox(height: 16),
-
-                  // ── Actions ──────────────────────────────────────────────
-                  Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Container(
-                            height: 46,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: RoomieColors.border,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Text(
-                              'cancel',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: RoomieColors.text,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (tempSelected != null) {
-                              widget.onChanged(tempSelected!);
-                            }
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 46,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: tempSelected != null
-                                  ? RoomieColors.primary
-                                  : RoomieColors.primaryMid,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Text(
-                              'confirm →',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
+  @override
+  void initState() {
+    super.initState();
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 180),
     );
+    _fade = CurvedAnimation(parent: _anim, curve: Curves.easeOut);
+    _slide = Tween<Offset>(
+      begin: const Offset(0, -0.05),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeOut));
+  }
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
+
+  DateTime get _maxDate {
+    final now = DateTime.now();
+    return DateTime(now.year - widget.minAge, now.month, now.day);
+  }
+
+  void _toggleCal() {
+    setState(() => _calOpen = !_calOpen);
+    _calOpen ? _anim.forward() : _anim.reverse();
+  }
+
+  void _onTextChanged(DateTime? date) {
+    if (date != null && date.isAfter(_maxDate)) return;
+    widget.onChanged(date);
+  }
+
+  void _onCalendarSelected(DateTime date) {
+    setState(() => _calOpen = false);
+    _anim.reverse();
+    widget.onChanged(date);
+  }
+
+  int _calcAge(DateTime dob) {
+    final now = DateTime.now();
+    int age = now.year - dob.year;
+    if (now.month < dob.month ||
+        (now.month == dob.month && now.day < dob.day)) {
+      age--;
+    }
+    return age;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const RoomieFieldLabel('date of birth'),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: _open,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: widget.error != null
-                    ? RoomieColors.error
-                    : RoomieColors.border,
-                width: widget.error != null ? 1.5 : 1,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.calendar_today_outlined,
-                  size: 16,
-                  color: widget.selectedDob != null
-                      ? RoomieColors.primary
-                      : RoomieColors.hint,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  widget.selectedDob != null
-                      ? _formatDob(widget.selectedDob!)
-                      : 'dd / mm / yyyy',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: widget.selectedDob != null
-                        ? RoomieColors.text
-                        : RoomieColors.hint,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        RoomieDobTextField(
+          value: widget.selectedDob,
+          onChanged: _onTextChanged,
+          onCalendarTap: _toggleCal,
+          calOpen: _calOpen,
+          hasError: widget.error != null,
         ),
         if (widget.error != null) ...[
           const SizedBox(height: 5),
           RoomieFieldError(message: widget.error!),
+        ] else if (widget.selectedDob != null) ...[
+          const SizedBox(height: 5),
+          Text(
+            'age: ${_calcAge(widget.selectedDob!)} years',
+            style: const TextStyle(
+              fontSize: 11,
+              color: RoomieColors.primaryMid,
+            ),
+          ),
+        ],
+        if (_calOpen) ...[
+          const SizedBox(height: 8),
+          FadeTransition(
+            opacity: _fade,
+            child: SlideTransition(
+              position: _slide,
+              child: RoomieDobCalendarPanel(
+                selectedDate: widget.selectedDob,
+                onDateSelected: _onCalendarSelected,
+                minAge: widget.minAge,
+              ),
+            ),
+          ),
         ],
       ],
     );

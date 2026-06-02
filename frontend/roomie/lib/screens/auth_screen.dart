@@ -12,6 +12,7 @@ import 'verification_screen.dart';
 import 'forgot_password_screen.dart';
 import '../widgets/error_banner.dart';
 import '../widgets/dob_picker.dart';
+
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -23,6 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isLogin = true;
   late final PageController _pageController;
 
+  // ── Login state ────────────────────────────────────────────────────────────
   final _loginFormKey = GlobalKey<FormState>();
   final _loginEmailController = TextEditingController();
   final _loginPasswordController = TextEditingController();
@@ -30,8 +32,8 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isLoginLoading = false;
   String? _loginError;
 
+  // ── Signup state ───────────────────────────────────────────────────────────
   final _signupFormKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _signupEmailController = TextEditingController();
   final _signupPasswordController = TextEditingController();
@@ -54,7 +56,6 @@ class _AuthScreenState extends State<AuthScreen> {
     _pageController.dispose();
     _loginEmailController.dispose();
     _loginPasswordController.dispose();
-    _fullNameController.dispose();
     _displayNameController.dispose();
     _signupEmailController.dispose();
     _signupPasswordController.dispose();
@@ -75,7 +76,7 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ─── Login ─────────────────────────────────────────────────────────────────
+  // ── Login ──────────────────────────────────────────────────────────────────
 
   Future<void> _handleLogin() async {
     setState(() => _loginError = null);
@@ -93,11 +94,11 @@ class _AuthScreenState extends State<AuthScreen> {
     if (error != null) {
       setState(() => _loginError = error);
     } else {
-      // todo: navigate to HomeScreen
+      // TODO: navigate to HomeScreen
     }
   }
 
-  // ─── Signup ────────────────────────────────────────────────────────────────
+  // ── Signup ─────────────────────────────────────────────────────────────────
 
   bool _isAgeValid(DateTime dob) {
     final today = DateTime.now();
@@ -110,17 +111,21 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> _handleSignup() async {
-    setState(() => _signupError = null);
+    setState(() {
+      _signupError = null;
+      _dobError = null;
+    });
 
     if (_selectedDob == null) {
       setState(() => _dobError = 'date of birth is required');
       return;
     }
     if (!_isAgeValid(_selectedDob!)) {
-      setState(() => _dobError = 'you must be 18 or older to use roomie');
+      setState(() => _dobError = 'you must be at least 16 years old to use roomie');
       return;
     }
     if (!_signupFormKey.currentState!.validate()) return;
+
     setState(() => _isSignupLoading = true);
 
     final error = await AuthService.signup(
@@ -147,7 +152,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  // ─── Google ────────────────────────────────────────────────────────────────
+  // ── Google ─────────────────────────────────────────────────────────────────
 
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isSocialLoading = true);
@@ -160,7 +165,7 @@ class _AuthScreenState extends State<AuthScreen> {
     if (error != null) {
       _showErrorSnackbar(error);
     } else {
-      // todo: navigate to HomeScreen
+      // TODO: navigate to HomeScreen
     }
   }
 
@@ -179,7 +184,7 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ─── Bottom section (shared) ───────────────────────────────────────────────
+  // ── Shared bottom section ──────────────────────────────────────────────────
 
   Widget _buildBottomSection() {
     return Column(
@@ -204,13 +209,13 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ─── Login form ────────────────────────────────────────────────────────────
+  // ── Login form ─────────────────────────────────────────────────────────────
 
   Widget _buildLoginForm() {
     return Form(
       key: _loginFormKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const RoomieFieldLabel('email'),
           const SizedBox(height: 6),
@@ -242,9 +247,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   size: 18,
                   color: RoomieColors.primaryMid,
                 ),
-                onPressed: () => setState(
-                  () => _obscureLoginPassword = !_obscureLoginPassword,
-                ),
+                onPressed: () =>
+                    setState(() => _obscureLoginPassword = !_obscureLoginPassword),
               ),
             ),
             validator: (v) {
@@ -254,7 +258,6 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 8),
 
-          // ── Error banner ──
           if (_loginError != null) ...[
             const SizedBox(height: 4),
             RoomieErrorBanner(message: _loginError!),
@@ -264,13 +267,11 @@ class _AuthScreenState extends State<AuthScreen> {
           Align(
             alignment: Alignment.centerRight,
             child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ForgotPasswordScreen(),
-                  ),
-                );
-              },
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ForgotPasswordScreen(),
+                ),
+              ),
               child: const Text(
                 'forgot password?',
                 style: TextStyle(fontSize: 12, color: RoomieColors.primaryMid),
@@ -290,24 +291,22 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ─── Signup form ───────────────────────────────────────────────────────────
+  // ── Signup form ────────────────────────────────────────────────────────────
 
   Widget _buildSignupForm() {
     return Form(
       key: _signupFormKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const RoomieFieldLabel('display name'),
           const SizedBox(height: 6),
           TextFormField(
             controller: _displayNameController,
             style: const TextStyle(fontSize: 13, color: RoomieColors.text),
-            decoration: RoomieInputDecoration.of('Your Name'),
+            decoration: RoomieInputDecoration.of('your name'),
             validator: (v) {
-              if (v == null || v.trim().isEmpty) {
-                return 'display name is required';
-              }
+              if (v == null || v.trim().isEmpty) return 'display name is required';
               if (v.trim().length < 2) return 'must be at least 2 characters';
               return null;
             },
@@ -367,12 +366,11 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 12),
 
-          // ── Error banner ──
-            if (_signupError != null) ...[
-              RoomieErrorBanner(message: _signupError!), 
-              const SizedBox(height: 12),
-            ],
-          const SizedBox(height: 12),
+          if (_signupError != null) ...[
+            RoomieErrorBanner(message: _signupError!),
+            const SizedBox(height: 12),
+          ],
+
           RoomiePrimaryButton(
             label: 'create account →',
             isLoading: _isSignupLoading,
@@ -383,6 +381,8 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
     );
   }
+
+  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -398,7 +398,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 children: [
                   const SizedBox(height: 32),
                   const RoomieHeader(),
-                  const SizedBox(height: 28),
                   const SizedBox(height: 28),
                   const Divider(color: RoomieColors.border, thickness: 0.5),
                   const SizedBox(height: 24),
@@ -419,7 +418,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [_buildLoginForm(), const SizedBox(height: 32)],
+                      children: [
+                        _buildLoginForm(),
+                        const SizedBox(height: 32),
+                      ],
                     ),
                   ),
                   SingleChildScrollView(
