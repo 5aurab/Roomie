@@ -33,6 +33,8 @@ migrate_working_dir/
 /build/
 /coverage/
 
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
 # Symbolication related
 app.*.symbols
 
@@ -47,14 +49,10 @@ app.*.map.json
 # Secrets & signing
 .env
 .env.*
-google-services.json
-GoogleService-Info.plist
 android/key.properties
 android/*.jks
 *.pem
 *.key
-google-services.json
-GoogleService-Info.plist
 
 # iOS Pods
 ios/Pods/
