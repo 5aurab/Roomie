@@ -53,8 +53,6 @@ android/key.properties
 android/*.jks
 *.pem
 *.key
-google-services.json
-GoogleService-Info.plist
 
 # iOS Pods
 ios/Pods/
