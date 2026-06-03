@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  static const String _baseUrl = 'http://localhost:8000/api/users';
+  static const String _baseUrl = 'http://192.168.x.x:8000/api/users';
   // Replace x.x with your laptop IP
   static const _storage = FlutterSecureStorage();
 
