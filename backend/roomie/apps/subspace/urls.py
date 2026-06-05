@@ -10,6 +10,7 @@ from apps.subspace.views.subspace_views import (
     SubspaceInviteView,
     SubspaceJoinRequestView,
     SubspaceRespondRequestView,
+    SubspacePendingRequestsView,
 )
 app_name = 'subspace'
 
@@ -29,4 +30,5 @@ urlpatterns = [
     path('<int:household_id>/subspaces/<int:subspace_id>/invite/', SubspaceInviteView.as_view(), name='subspace-invite'),
     path('<int:household_id>/subspaces/<int:subspace_id>/join/',    SubspaceJoinRequestView.as_view(), name='subspace-join-request'),
     path('<int:household_id>/subspaces/<int:subspace_id>/requests/<int:request_id>/respond/', SubspaceRespondRequestView.as_view(), name='subspace-respond-request'),
-]
+    path('<int:household_id>/subspaces/<int:subspace_id>/requests/', SubspacePendingRequestsView.as_view(), name='subspace-pending-requests'),
+]    

@@ -374,7 +374,23 @@ class SubspaceRespondRequestView(views.APIView):
             {'error': 'action must be accept, decline, or cancel'},
             status=status.HTTP_400_BAD_REQUEST
         ) 
+class SubspacePendingRequestsView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
+    def get(self, request, household_id, subspace_id):
+        if not is_household_member(request.user, household_id):
+            return response.Response(
+                {'error': 'Not a member of this household'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        requests = SubspaceJoinRequest.objects.filter(
+            subspace_id=subspace_id,
+            status='pending'
+        )
+        return response.Response(
+            SubspaceJoinRequestSerializer(requests, many=True).data
+        )
+    
 class SubspaceLeaveView(views.APIView):
     """
     Allows a user to leave a subspace. If they are the last member, the subspace is deleted.
