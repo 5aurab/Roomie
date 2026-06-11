@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 import '../widgets/logo_mark.dart';
+import 'create_home.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -47,7 +48,10 @@ class WelcomeScreen extends StatelessWidget {
                 sublabel: 'start fresh and invite your roommates',
                 filled: true,
                 onTap: () {
-                  // todo: navigate to CreateHomeScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => CreateHomeScreen()),
+                  );
                 },
               ),
               const SizedBox(height: 14),
@@ -92,7 +96,6 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Center(
                 child: Container(
                   width: 36,
@@ -128,12 +131,10 @@ class WelcomeScreen extends StatelessWidget {
               TextField(
                 controller: controller,
                 autofocus: true,
-                style: const TextStyle(
-                    fontSize: 13, color: RColors.text),
+                style: const TextStyle(fontSize: 13, color: RColors.text),
                 decoration: InputDecoration(
                   hintText: 'roomie.app/join/xxxxxx',
-                  hintStyle: const TextStyle(
-                      fontSize: 13, color: RColors.hint),
+                  hintStyle: const TextStyle(fontSize: 13, color: RColors.hint),
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(
@@ -142,16 +143,22 @@ class WelcomeScreen extends StatelessWidget {
                     color: RColors.primaryMid,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 13),
+                    horizontal: 14,
+                    vertical: 13,
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                        color: RColors.border, width: 1),
+                      color: RColors.border,
+                      width: 1,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                        color: RColors.primary, width: 1.5),
+                      color: RColors.primary,
+                      width: 1.5,
+                    ),
                   ),
                 ),
               ),
@@ -175,10 +182,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   child: const Text(
                     'join home →',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -189,7 +193,6 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 class _SetupButton extends StatelessWidget {
   final IconData icon;

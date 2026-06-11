@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 import 'field_error.dart';
 import 'dob_text_field.dart';
-import 'dob_calendar_panel.dart';
 
 class DobPicker extends StatefulWidget {
   final DateTime? selectedDob;
@@ -64,12 +63,6 @@ class _DobPickerState extends State<DobPicker>
     widget.onChanged(date);
   }
 
-  void _onCalendarSelected(DateTime date) {
-    setState(() => _calOpen = false);
-    _anim.reverse();
-    widget.onChanged(date);
-  }
-
   int _calcAge(DateTime dob) {
     final now = DateTime.now();
     int age = now.year - dob.year;
@@ -112,11 +105,6 @@ class _DobPickerState extends State<DobPicker>
             opacity: _fade,
             child: SlideTransition(
               position: _slide,
-              child: DobCalendarPanel(
-                selectedDate: widget.selectedDob,
-                onDateSelected: _onCalendarSelected,
-                minAge: widget.minAge,
-              ),
             ),
           ),
         ],
