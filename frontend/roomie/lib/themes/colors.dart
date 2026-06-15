@@ -16,4 +16,7 @@ class RColors {
   static const Color errorText = Color(0xFFA32D2D);
   static const Color navBarContainer = Color(0x14000000);
   static const Color navBarIconUnselected = Color(0x80000000);
+  static const Color inputBackground = Color(0xFFEDE8FF);
+static const Color inputBorder     = Color(0xFFC4BAF0);
+static const Color inputPlaceholder = Color(0xFFB0A3D8);
 }
